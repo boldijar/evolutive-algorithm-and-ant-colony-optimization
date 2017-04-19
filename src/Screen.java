@@ -1,21 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * Created by Paul on 4/18/17.
  */
-class Screen extends JPanel {
+class Screen extends JPanel implements KeyListener {
     static final int HEIGHT = 600;
     static final int WIDTH = 800;
+    static final int STROKE_RADIUS = 5;
 
     private List<Square> squareList;
-    private int y;
+    private List<List<Square>> doubleList;
 
-    public Screen() throws IOException {
+    private void init() {
+        doubleList = ACO.getMock(squareList);
+    }
+
+    Screen() throws IOException {
         squareList = Square.readAll();
+        init();
     }
 
     @Override
@@ -27,22 +38,21 @@ class Screen extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
-        graphics2D.setStroke(new BasicStroke(5));
-
-        System.out.println(squareList);
-        y = 0;
-        squareList.forEach(square -> {
-            drawSquare(graphics2D, 0, y, square);
-            y += square.size;
-        });
-
-
+        graphics2D.setStroke(new BasicStroke(STROKE_RADIUS));
+        DrawingUtils.drawAll(doubleList, graphics2D);
     }
 
-    private void drawSquare(Graphics2D graphics2D, int x, int y, Square square) {
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.drawRect(x, y, square.size, square.size);
-        graphics2D.setColor(square.color);
-        graphics2D.fillRect(x, y, square.size, square.size);
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        init();
+        repaint();
     }
 }

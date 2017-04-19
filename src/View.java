@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +14,10 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen screen = new Screen();
         getContentPane().add(screen);
+        addKeyListener(screen);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

@@ -1,3 +1,5 @@
+package rendering;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -7,16 +9,16 @@ import java.util.List;
  * Created by Paul on 4/18/17.
  */
 public class Square {
-    final int size;
-    final Color color;
+    public final int size;
+    public final Color color;
 
-    private Square(int size, Color color) {
+    public Square(int size, Color color) {
         this.size = size;
         this.color = color;
     }
 
-    static List<Square> readAll() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("squares"));
+    public static List<Square> readAll() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("squares2"));
         String line;
         List<Square> squares = new ArrayList<>();
         while ((line = bufferedReader.readLine()) != null) {
@@ -30,7 +32,7 @@ public class Square {
 
     @Override
     public String toString() {
-        return "Square{" +
+        return "rendering.Square{" +
                 "size=" + size +
                 ", color=" + color +
                 '}';

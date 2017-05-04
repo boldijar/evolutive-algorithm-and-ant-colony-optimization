@@ -1,13 +1,11 @@
+package rendering;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by Paul on 4/18/17.
@@ -16,15 +14,17 @@ class Screen extends JPanel implements KeyListener {
     static final int HEIGHT = 600;
     static final int WIDTH = 800;
     static final int STROKE_RADIUS = 5;
+    private final ScreenLoadListener listener;
 
     private List<Square> squareList;
     private List<List<Square>> doubleList;
 
     private void init() {
-        doubleList = ACO.getMock(squareList);
+        doubleList = listener.getSolutions();
     }
 
-    Screen() throws IOException {
+    Screen(ScreenLoadListener listener) throws IOException {
+        this.listener = listener;
         squareList = Square.readAll();
         init();
     }
@@ -39,6 +39,9 @@ class Screen extends JPanel implements KeyListener {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setStroke(new BasicStroke(STROKE_RADIUS));
+        if (doubleList == null) {
+            return;
+        }
         DrawingUtils.drawAll(doubleList, graphics2D);
     }
 
